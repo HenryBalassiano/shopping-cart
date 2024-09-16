@@ -1,53 +1,59 @@
-import React, {useState, useEffect} from "react";
+import React, {useContext} from "react";
 import Product from "../interfaces/Product.tsx";
 import {useProducts} from "../hooks/useProducts.tsx";
 import {MdOutlineShoppingBag} from "react-icons/md";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHeart} from "@fortawesome/free-regular-svg-icons";
+import Sidebar from "../components/Sidebar.tsx";
+import {ProductContext} from "../context/StoreContext.tsx";
 
-interface Store {
-  products: Product[];
-  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
-  setFilteredItems: React.Dispatch<React.SetStateAction<Product[]>>;
-}
-
-export default function Store({
-  products,
-  setProducts,
-  setFilteredItems,
-}: Store) {
-  const {hasProducts} = useProducts(products);
-
-  const [sortedProducts, setSortedProducts] = useState<Product[]>([]);
-
-  useEffect(() => {
-    const sorted = [...products].sort((a, b) => a.price - b.price);
-    setSortedProducts(sorted);
-  }, []);
+export default function Store() {
+  const productContext = useContext(ProductContext);
+  if (!productContext) {
+    throw new Error("ProductContext must be used within a ProductProvider");
+  }
+  const {
+    productData,
+    setProductData,
+    setFilteredItems,
+    filteredItems,
+    setToggleFav,
+  } = productContext;
+  const {hasProducts} = useProducts(productData);
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const sortOption = e.target.value;
 
     if (sortOption === "lowToHigh") {
-      const sorted = [...products].sort((a, b) => a.price - b.price);
+      const sorted = [...productData].sort((a, b) => a.price - b.price);
       console.log("hi i just re ran the sort thing");
-      setSortedProducts(sorted);
+      setFilteredItems(sorted);
     } else if (sortOption === "highToLow") {
-      const sorted = [...products].sort((a, b) => b.price - a.price);
-      setSortedProducts(sorted);
+      const sorted = [...productData].sort((a, b) => b.price - a.price);
+      setFilteredItems(sorted);
     }
   };
   const addToCart = (id: number) => {
-    const updatedProducts = products.map((item) =>
+    const updatedProducts = productData.map((item) =>
       item.id === id ? {...item, inCart: true} : item
     );
 
-    setProducts(updatedProducts);
-
-    const updatedItems = updatedProducts.filter((item) => item.inCart);
-    setFilteredItems(updatedItems);
+    setProductData(updatedProducts);
   };
+  const addToFavorites = (id: number) => {
+    const updatedProducts = productData.map((item) =>
+      item.id === id ? {...item, favorite: true} : item
+    );
+    setProductData(updatedProducts);
+  };
+  if (filteredItems.length === 0) {
+    return <div className="mx-auto max-w-screen-lg">No favorites found.</div>;
+  }
+
   if (hasProducts) {
     return (
       <div className="mx-auto max-w-screen-lg">
+        <Sidebar />
         <div className="flex justify-end mb-4">
           <select
             onChange={handleSortChange}
@@ -59,7 +65,7 @@ export default function Store({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {sortedProducts.map((item) => (
+          {filteredItems.map((item) => (
             <div key={item.id} className="w-60 mx-auto">
               <div className="rounded-md bg-gray-300 h-60 w-60">
                 <img
@@ -69,14 +75,21 @@ export default function Store({
                 />
               </div>
               <span className="block font-normal text-lg mt-2">
+                <span className="block font-bold text-lg">
+                  {item.subcategory}
+                </span>{" "}
                 {item.title}
               </span>
 
-              <div className="flex justify-between items-center mt-1">
+              <div className="flex items-center mt-1">
                 <span className="font-semibold text-lg">${item.price}</span>
-
                 <MdOutlineShoppingBag
                   onClick={() => addToCart(item.id)}
+                  className="w-6 h-6  text-gray-700 cursor-pointer"
+                />{" "}
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  onClick={() => addToFavorites(item.id)}
                   className="w-6 h-6 text-gray-700 cursor-pointer"
                 />
               </div>

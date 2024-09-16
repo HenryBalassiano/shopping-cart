@@ -10,5 +10,8 @@ interface Product {
   fashion: Product[];
   subcategory: string;
   inCart: boolean;
+  quantity: number;
+  favorite: boolean;
+  rating: number;
 }
 export default Product;
