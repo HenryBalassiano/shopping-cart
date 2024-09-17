@@ -1,10 +1,10 @@
 import {useContext} from "react";
-import Home from "./components/Home.tsx";
-import Navbar from "./components/Navbar.tsx";
-import {Route, Routes} from "react-router-dom";
-import Store from "./components/Store.tsx";
-import Cart from "./components/Cart.tsx";
-import {ProductContext} from "./context/StoreContext.tsx";
+import {Route, Routes} from "react-router-dom"; // No more BrowserRouter here
+import Home from "./components/Home";
+import Navbar from "./components/Navbar";
+import Store from "./components/Store";
+import Cart from "./components/Cart";
+import {ProductContext} from "./context/StoreContext";
 
 function App() {
   const productContext = useContext(ProductContext);
@@ -12,6 +12,7 @@ function App() {
     throw new Error("ProductList must be used within a ProductProvider");
   }
   const {loading} = productContext;
+
   return (
     <>
       <Navbar />
