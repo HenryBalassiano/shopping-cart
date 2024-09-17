@@ -5,20 +5,15 @@ import {MdOutlineShoppingBag} from "react-icons/md";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-regular-svg-icons";
 import Sidebar from "../components/Sidebar.tsx";
-import {ProductContext} from "../context/StoreContext.tsx";
+import useProductContext from "../hooks/useProductContext.tsx";
 
 export default function Store() {
-  const productContext = useContext(ProductContext);
+  const productContext = useProductContext();
   if (!productContext) {
     throw new Error("ProductContext must be used within a ProductProvider");
   }
-  const {
-    productData,
-    setProductData,
-    setFilteredItems,
-    filteredItems,
-    setToggleFav,
-  } = productContext;
+  const {productData, setProductData, setFilteredItems, filteredItems} =
+    productContext;
   const {hasProducts} = useProducts(productData);
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

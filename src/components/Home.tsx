@@ -1,10 +1,7 @@
 import HomeCarousel from "./HomeCarousel.tsx";
 import Product from "../interfaces/Product.tsx";
 
-interface HomeProps {
-  products: Product[];
-}
-export default function Home({products}: HomeProps) {
+export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-2xl font-bold text-center mb-2">
@@ -15,7 +12,7 @@ export default function Home({products}: HomeProps) {
       </h2>
       <div>
         {" "}
-        <HomeCarousel products={products} />
+        <HomeCarousel />
       </div>
     </div>
   );

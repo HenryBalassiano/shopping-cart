@@ -5,18 +5,10 @@ import "slick-carousel/slick/slick-theme.css";
 import {useProducts} from "../hooks/useProducts.tsx";
 import Product from "../interfaces/Product.tsx";
 import FilterDropdown from "./FilterDropdown.tsx";
-import {ProductContext} from "../context/StoreContext.tsx";
+import useProductContext from "../hooks/useProductContext.tsx";
 
-interface HomeProps {
-  products: Product[];
-}
-
-export default function HomeCarousel({products}: HomeProps) {
-  const productContext = useContext(ProductContext);
-  if (!productContext) {
-    throw new Error("ProductContext must be used within a ProductProvider");
-  }
-  const {productData} = productContext;
+export default function HomeCarousel() {
+  const {productData} = useProductContext();
   const {hasProducts} = useProducts(productData);
   const [selectedOption, setSelectedOption] = useState<string>("All Products");
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -62,7 +54,7 @@ export default function HomeCarousel({products}: HomeProps) {
       console.log();
       setFilteredProducts(filteredData);
     } else {
-      setFilteredProducts(products);
+      setFilteredProducts(productData);
     }
     setIsOpen(false);
   };

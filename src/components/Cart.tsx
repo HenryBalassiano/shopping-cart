@@ -4,15 +4,9 @@ import Product from "../interfaces/Product.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSquarePlus} from "@fortawesome/free-regular-svg-icons/faSquarePlus";
 import {faSquareMinus} from "@fortawesome/free-regular-svg-icons/faSquareMinus";
-import {ProductContext} from "../context/StoreContext.tsx";
-
+import useProductContext from "../hooks/useProductContext.tsx";
 export default function Cart() {
-  const productContext = useContext(ProductContext);
-  if (!productContext) {
-    throw new Error("ProductContext must be used within a ProductProvider");
-  }
-  const {productData, setProductData, setFilteredItems, setToggleFav} =
-    productContext;
+  const {productData, setProductData} = useProductContext();
 
   const handleQuantityIncrement = (id: number) => {
     setProductData((prevProducts) =>

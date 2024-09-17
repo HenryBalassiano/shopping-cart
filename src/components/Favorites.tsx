@@ -1,18 +1,13 @@
 // Favorites.tsx
-import {useContext} from "react";
 import {Link} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart as faHeartRegular} from "@fortawesome/free-regular-svg-icons";
 import {faHeart as faHeartSolid} from "@fortawesome/free-solid-svg-icons";
-import {ProductContext} from "../context/StoreContext.tsx";
+import useProductContext from "../hooks/useProductContext.tsx";
 
 export default function Favorites() {
-  const productContext = useContext(ProductContext);
-  if (!productContext) {
-    throw new Error("ProductContext must be used within a ProductProvider");
-  }
   const {productData, setFilteredItems, setToggleFav, toggleFav} =
-    productContext;
+    useProductContext();
 
   const favoriteItems = productData.filter((item) => item.favorite);
   const handleFavorites = () => {

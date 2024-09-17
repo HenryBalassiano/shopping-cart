@@ -3,21 +3,13 @@ import {useEffect, useContext} from "react";
 import {MdOutlineShoppingBag} from "react-icons/md";
 import Product from "../interfaces/Product.tsx";
 import Favorites from "../components/Favorites.tsx";
-import {ProductContext} from "../context/StoreContext.tsx";
+import useProductContext from "../hooks/useProductContext.tsx";
 
 export default function Navbar() {
-  const productContext = useContext(ProductContext);
-  if (!productContext) {
-    throw new Error("ProductContext must be used within a ProductProvider");
-  }
-  const {productData, setFilteredItems, setToggleFav} = productContext;
+  const {productData, setFilteredItems, setToggleFav} = useProductContext();
 
   const cartItems = productData.filter((item) => item.inCart);
-  const favoriteItems = productData.filter((item) => item.favorite);
   console.log(productData, "eat shit");
-  if (!productContext) {
-    throw new Error("ProductList must be used within a ProductProvider");
-  }
 
   return (
     <>
