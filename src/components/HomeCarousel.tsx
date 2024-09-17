@@ -49,7 +49,7 @@ export default function HomeCarousel() {
 
     if (option !== "All Products") {
       const filteredData = productData.filter(
-        (item) => item.subcategory === option
+        (item) => item.category === option
       );
       console.log();
       setFilteredProducts(filteredData);
