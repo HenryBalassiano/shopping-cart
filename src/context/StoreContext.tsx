@@ -26,7 +26,7 @@ function ProductProvider({children}: ProductProviderProps) {
       }
     }
     fetchProducts();
-  }, [fetchAllProducts]);
+  }, []);
 
   return (
     <ProductContext.Provider

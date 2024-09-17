@@ -13,7 +13,6 @@ function App() {
     throw new Error("ProductList must be used within a ProductProvider");
   }
   const {loading, productData} = productContext;
-  console.log(productData, "ssdsad");
   return (
     <>
       <Navbar />

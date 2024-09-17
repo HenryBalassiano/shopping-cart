@@ -9,7 +9,6 @@ export default function Navbar() {
   const {productData, setFilteredItems, setToggleFav} = useProductContext();
 
   const cartItems = productData.filter((item) => item.inCart);
-  console.log(productData, "eat shit");
 
   return (
     <>

@@ -1,6 +1,4 @@
-import {useContext} from "react";
 import {RiDeleteBin6Line} from "react-icons/ri";
-import Product from "../interfaces/Product.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSquarePlus} from "@fortawesome/free-regular-svg-icons/faSquarePlus";
 import {faSquareMinus} from "@fortawesome/free-regular-svg-icons/faSquareMinus";
