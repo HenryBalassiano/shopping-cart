@@ -1,5 +1,4 @@
 import {Link} from "react-router-dom";
-import {useEffect, useContext} from "react";
 import {MdOutlineShoppingBag} from "react-icons/md";
 import Favorites from "../components/Favorites.tsx";
 import useProductContext from "../hooks/useProductContext.tsx";

@@ -1,4 +1,3 @@
-import React, {useContext} from "react";
 import Product from "../interfaces/Product.tsx";
 import {useProducts} from "../hooks/useProducts.tsx";
 import {MdOutlineShoppingBag} from "react-icons/md";

@@ -3,7 +3,6 @@ import Home from "./components/Home.tsx";
 import Navbar from "./components/Navbar.tsx";
 import {Route, Routes} from "react-router-dom";
 import Store from "./components/Store.tsx";
-import Product from "./interfaces/Product.tsx";
 import Cart from "./components/Cart.tsx";
 import {ProductContext} from "./context/StoreContext.tsx";
 

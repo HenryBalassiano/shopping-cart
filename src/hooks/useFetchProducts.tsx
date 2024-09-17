@@ -1,6 +1,5 @@
 // hooks/useFetchProducts.tsx
 
-import {useEffect, useState} from "react";
 import Product from "../interfaces/Product";
 
 // Define the category mapping within this file

@@ -1,6 +1,6 @@
 // src/components/Sidebar.tsx
 
-import React, {useState, useEffect, useRef} from "react";
+import {useState, useEffect, useRef} from "react";
 import useProductContext from "../hooks/useProductContext";
 import Product from "../interfaces/Product";
 
@@ -45,7 +45,6 @@ export default function Sidebar() {
   };
 
   const handleCategoryChange = (
-    category: string,
     subcategories: string[],
     isChecked: boolean
   ) => {
@@ -102,7 +101,6 @@ export default function Sidebar() {
                 ref={checkboxRef}
                 onChange={(e) =>
                   handleCategoryChange(
-                    categoryItem.category,
                     categoryItem.subcategories,
                     e.target.checked
                   )
@@ -134,7 +132,7 @@ export default function Sidebar() {
       })}
       <button
         onClick={() => setSelectedSubcategories([])}
-        className="mt-6 w-full bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition-colors"
+        className="mt-6 w-full bg-gray-500 text-white py-2 px-4 rounded hover:bg-black transition-colors"
       >
         Clear All
       </button>
