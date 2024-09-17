@@ -1,5 +1,4 @@
 import HomeCarousel from "./HomeCarousel.tsx";
-import Product from "../interfaces/Product.tsx";
 
 export default function Home() {
   return (

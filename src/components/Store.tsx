@@ -8,12 +8,8 @@ import Sidebar from "../components/Sidebar.tsx";
 import useProductContext from "../hooks/useProductContext.tsx";
 
 export default function Store() {
-  const productContext = useProductContext();
-  if (!productContext) {
-    throw new Error("ProductContext must be used within a ProductProvider");
-  }
   const {productData, setProductData, setFilteredItems, filteredItems} =
-    productContext;
+    useProductContext();
   const {hasProducts} = useProducts(productData);
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -47,49 +43,72 @@ export default function Store() {
 
   if (hasProducts) {
     return (
-      <div className="mx-auto max-w-screen-lg">
+      <div className="flex	">
+        {/* Sidebar */}
         <Sidebar />
-        <div className="flex justify-end mb-4">
-          <select
-            onChange={handleSortChange}
-            className="p-2 border border-gray-300 rounded-md"
-          >
-            <option value="lowToHigh">Price: Low To High</option>
-            <option value="highToLow">Price: High To Low</option>
-          </select>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {filteredItems.map((item) => (
-            <div key={item.id} className="w-60 mx-auto">
-              <div className="rounded-md bg-gray-300 h-60 w-60">
-                <img
-                  src={item.images[0]}
-                  alt={item.title}
-                  className="object-contain h-full w-full max-w-60 max-h-60"
-                />
-              </div>
-              <span className="block font-normal text-lg mt-2">
-                <span className="block font-bold text-lg">
-                  {item.subcategory}
-                </span>{" "}
-                {item.title}
-              </span>
+        {/* Main Content */}
+        <div className="flex-1 max-w-screen-2xl">
+          {/* Sorting Dropdown */}
+          <div className="flex justify-end mb-6 ">
+            <select
+              onChange={handleSortChange}
+              className="block w-48 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Sort By
+              </option>
+              <option value="lowToHigh">Price: Low To High</option>
+              <option value="highToLow">Price: High To Low</option>
+            </select>
+          </div>
 
-              <div className="flex items-center mt-1">
-                <span className="font-semibold text-lg">${item.price}</span>
-                <MdOutlineShoppingBag
-                  onClick={() => addToCart(item.id)}
-                  className="w-6 h-6  text-gray-700 cursor-pointer"
-                />{" "}
-                <FontAwesomeIcon
-                  icon={faHeart}
-                  onClick={() => addToFavorites(item.id)}
-                  className="w-6 h-6 text-gray-700 cursor-pointer"
-                />
-              </div>
+          {/* Products Grid */}
+          {filteredItems.length === 0 ? (
+            <p className="text-center text-gray-700">
+              No products match the selected subcategories.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+              {filteredItems.map((item: Product) => (
+                <div
+                  key={item.id}
+                  className="bg-white rounded-lg shadow-md overflow-hidden"
+                >
+                  <div className="aspect-square bg-gray-200 flex items-center justify-center">
+                    <img
+                      src={item.images[0]}
+                      alt={item.title}
+                      className="object-contain h-4/5 w-4/5 p-2"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                    <p className="text-gray-700 mb-4">${item.price}</p>
+                    <div className="flex items-center justify-between">
+                      <button
+                        onClick={() => addToCart(item.id)}
+                        className="flex items-center text-blue-500 hover:text-blue-700"
+                      >
+                        <MdOutlineShoppingBag className="mr-1" />
+                        Add to Cart
+                      </button>
+                      <button
+                        onClick={() => addToFavorites(item.id)}
+                        className={`flex items-center ${
+                          item.favorite ? "text-red-500" : "text-gray-500"
+                        } hover:text-red-700`}
+                      >
+                        <FontAwesomeIcon icon={faHeart} className="mr-1" />
+                        Favorite
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
       </div>
     );

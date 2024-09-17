@@ -1,13 +1,34 @@
+// hooks/useFetchProducts.tsx
+
+import {useEffect, useState} from "react";
+import Product from "../interfaces/Product";
+
+// Define the category mapping within this file
+const categoryMapping: {
+  [key: string]: {mainCategory: string; subcategory: string};
+} = {
+  smartphones: {mainCategory: "Electronics", subcategory: "Smartphones"},
+  laptops: {mainCategory: "Electronics", subcategory: "Laptops"},
+  "mens-jackets": {mainCategory: "Fashion", subcategory: "Mens Jackets"},
+  "womens-dresses": {mainCategory: "Fashion", subcategory: "Womens Dresses"},
+  "skin-care": {mainCategory: "Self Care", subcategory: "Skin Care"},
+  beauty: {mainCategory: "Self Care", subcategory: "Beauty"},
+  // Add more mappings as needed
+};
+
 const useFetchProducts = () => {
   const fetchProductsByCategory = async (category: string) => {
     const response = await fetch(
       `https://dummyjson.com/products/category/${category}`
     );
+    if (!response.ok) {
+      throw new Error(`Failed to fetch category: ${category}`);
+    }
     const data = await response.json();
     return data.products;
   };
 
-  const fetchAllProducts = async () => {
+  const fetchAllProducts = async (): Promise<Product[]> => {
     try {
       const [
         smartphones,
@@ -25,23 +46,28 @@ const useFetchProducts = () => {
         fetchProductsByCategory("beauty"),
       ]);
 
-      const electronics = [...smartphones, ...laptops].map((product) => ({
+      const electronics = smartphones.concat(laptops).map((product: any) => ({
         ...product,
-        subcategory: "Electronics",
+        category: categoryMapping[product.category].mainCategory,
+        subcategory: categoryMapping[product.category].subcategory,
         inCart: false,
         quantity: 1,
         favorite: false,
       }));
-      const fashion = [...mensJackets, ...womensDresses].map((product) => ({
+
+      const fashion = mensJackets.concat(womensDresses).map((product: any) => ({
         ...product,
-        subcategory: "Fashion",
+        category: categoryMapping[product.category].mainCategory,
+        subcategory: categoryMapping[product.category].subcategory,
         inCart: false,
         quantity: 1,
         favorite: false,
       }));
-      const selfCare = [...skinCare, ...beauty].map((product) => ({
+
+      const selfCare = skinCare.concat(beauty).map((product: any) => ({
         ...product,
-        subcategory: "Self Care",
+        category: categoryMapping[product.category].mainCategory,
+        subcategory: categoryMapping[product.category].subcategory,
         inCart: false,
         quantity: 1,
         favorite: false,

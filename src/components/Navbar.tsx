@@ -1,7 +1,6 @@
-import {Route, Routes, Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useEffect, useContext} from "react";
 import {MdOutlineShoppingBag} from "react-icons/md";
-import Product from "../interfaces/Product.tsx";
 import Favorites from "../components/Favorites.tsx";
 import useProductContext from "../hooks/useProductContext.tsx";
 

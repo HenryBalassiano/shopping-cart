@@ -1,4 +1,3 @@
-import {useState} from "react";
 import {IoFilter} from "react-icons/io5";
 interface FilterDropdown {
   isOpen: boolean;
